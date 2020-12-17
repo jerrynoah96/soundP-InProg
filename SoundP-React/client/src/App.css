@@ -1,0 +1,185 @@
+.App {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('https://thumbs.gfycat.com/FalseThoroughAlleycat-max-14mb.gif');
+  background-size: cover;
+  text-align: center;
+  
+}
+@font-face {
+  font-family: "MetalMania";
+  src: local("MetalMania"),
+    url("./fonts/MetalMania-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+.navBar {
+  height: 7vh;
+  width: 100vw;
+  background-color: rgba(0,0,0, 0.8);
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  box-shadow: 1rem 0.1rem 0.1rem royalblue;
+
+}
+.navBar button {
+  width: 7%;
+  height: 1.5rem;
+  border: none;
+  margin: 0.5rem;
+  cursor: pointer;
+  background-color: rgba(83, 51, 237, 0.5);
+  color: rgba(225, 225, 225);
+  font-family: MetalMania;
+  margin-left: 30%;
+
+}
+.userAddress{
+  margin-left: auto;
+}
+.address {
+  font-style: italic;
+  color: royalblue;
+}
+.brandName{
+  font-family: cursive;
+  font-family: MetalMania;
+}
+.brandDescription{
+  font-size: 1.5rem;
+  font-family: MetalMania;
+}
+
+.main-page{
+  text-align: center;
+  color: white;
+  position: relative;
+  margin-top: 5rem;
+}
+input[type='file']{
+  width: 0.1px;
+	height: 0.1px;
+/*	opacity: 0; */
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.upload-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  margin-top: 6%;
+  width: 30vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+label{
+  color: white;
+  height: 35px;
+  width: 120px;
+  background-color: royalblue;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  margin-left: 50%;
+  margin-right: 50%;
+  margin-left: auto;
+  cursor: pointer;
+  font-family: MetalMania;
+  
+}
+
+input[type="submit"]{
+  margin-left: auto;
+  
+  width: 160px;
+}
+.switchForm-btns{
+  width: 50vw;
+  height: auto;
+  padding: 0.5rem;
+  
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, -7%);
+}
+.switchBtn{
+  border: none;
+  height: 2rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  background-color: rgba(83, 51, 237, 0.5);
+  color: rgba(225, 225, 225, 0.6);
+  font-family: MetalMania;
+}
+button:hover{
+  background-color: rgba(83, 51, 237);
+  color: rgba(225, 225, 225);
+
+}
+.currentComponentBtn {
+  background-color: rgba(83, 51, 237);
+  color: rgba(225, 225, 225);
+
+}
+.getMetaForm{
+  height: 13rem;
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -35%);
+}
+.getMetaForm h3{
+  font-size: 1.3rem;
+  font-family: MetalMania;
+  color:rgba(225, 225, 225, 0.9)
+
+}
+.getMetaForm input {
+  width: 60%;
+  height: 1.7rem;
+  border-radius: 0.1rem;
+  border: none;
+  box-shadow: 0.1rem 0.15rem 0.3rem rgba(225, 225, 225);
+  margin-bottom: 1rem;
+}
+.getMetaForm input::placeholder{
+  font-style: italic;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+.getMetaForm button {
+  width: 25%;
+  height: 1.4rem;
+  border: none;
+  margin: 0.5rem;
+  cursor: pointer;
+  background-color: rgba(83, 51, 237, 0.5);
+  color: rgba(225, 225, 225);
+  font-family: MetalMania;
+}
+input:focus{
+  outline: none;
+}
+button:focus{
+  outline: none;
+}
+
+
+
+
