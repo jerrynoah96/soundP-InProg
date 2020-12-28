@@ -1,11 +1,10 @@
-
 import React, { Component } from "react";
 import "../App.css";
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({host: "ipfs.infura.io", port: 5001, protocol:"https"})
 
 
-class Main extends Component {
+class ChooseSong extends Component {
     state = {
         buffer: null,
         fileCID: null
@@ -60,7 +59,7 @@ class Main extends Component {
 
         return(
             <div className="main-page">
-                <h4 className="brandDescription">Let's 'IPFS' Your Song...</h4>
+                <h4 className="brandDescription">Choose a Song</h4>
                 {this.state.fileCID}
                 <form className="upload-form" onSubmit={this.onSubmit}>
     
@@ -69,13 +68,12 @@ class Main extends Component {
                     id="file" className="file-input" 
                     size="60"
                     onChange={this.captureFile}/>
-                    <label for="file">
-                    <i class="material-icons">
+
+                    <button><i class="material-icons">
                         cloud_upload
-                    </i> &nbsp;
-                    Get CID</label>
+                    </i> &nbsp;Upload </button>
     
-                   <input type="submit"/> 
+                   
     
                 </form>
             </div>
@@ -86,4 +84,4 @@ class Main extends Component {
    
 }
 
-export default Main;
+export default ChooseSong;

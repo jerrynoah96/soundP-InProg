@@ -1,15 +1,34 @@
 import React, { Component } from "react";
-//import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import TrackRewarderABI from "./contracts/TrackRewarder.json";
+import SNPTokenABI from "./contracts/SNPTOKEN.json";
 import getWeb3 from "./getWeb3";
-import Main from './Component/Main';
+import ChooseSong from './Component/ChooseSong';
 import Nav from './Component/Nav';
-import GetMeta from './Component/GetMeta';
+import AddTrack from './Component/AddTrack';
+import Enroll from './Component/Enroll';
+import ClaimToken from './Component/ClaimToken';
+import classNames from 'classnames';
+import Buffers from './Component/BuffersList';
+import Logo from './soundP-logo.jpg';
+import bs58 from 'bs58';
+
 import "./App.css";
 
 
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null, userAccount:null };
+  state = { 
+    storageValue: 0,
+     web3: null,
+     accounts: null, 
+     contract: null, 
+     snpToken: null,
+     userAccount:null,
+     currentInterface: 'enroll',
+     unClaimedToken: null,
+     tokenBalance: null,
+     buffers: []
+    };
 
   componentDidMount = async () => {
     try {
@@ -23,18 +42,25 @@ class App extends Component {
         userAccount
       })
 
+      const TrackRewarderAddress = '0x88CF5E1E5233F4a7FE5899c2d34902D7fFEa118C';
+       //an instance of trackrewarder
+      const myContractInstance = new web3.eth.Contract(TrackRewarderABI, TrackRewarderAddress);
+      
 
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      /*const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address, 
-      ); */
+      //an instance of snptoken
+      const snpAddress = '0x286228C319e3Beaa5693da66AdfFbBB388856df0';
+      const tokenContract = new web3.eth.Contract(SNPTokenABI, snpAddress);
+      const tokenBal = await tokenContract.methods.balanceOf(this.state.userAccount).call();
+      const actualTokenBal = web3.utils.fromWei(tokenBal);
+      console.log(this.state.userAccount)
+      
 
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      //this.setState({ web3, accounts, contract: instance }, this.runExample);
+      // Set web3, accounts, and contract to the state, and instantly load tokenBalance
+      this.setState({ web3, accounts,userAccount, contract: myContractInstance, tokenBalance: actualTokenBal}, this.unClaimedTokenHandler)
+
+      
+      
+    
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -44,32 +70,178 @@ class App extends Component {
     }
   };
 
-/*  runExample = async () => {
-    const { accounts, contract } = this.state;
-
-    // Stores a given value, 5 by default.
-    await contract.methods.set(5).send({ from: accounts[0] });
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
+  //function to check unclaimed token
+  //loads upon 
+  unClaimedTokenHandler = async () => {
+    
+    
+    const unClaimedToken = await this.state.contract.methods.checkPendingTokens().call();
     // Update state with the result.
-    this.setState({ storageValue: response });
-  }; */
+    this.setState({ unClaimedToken});
+  };
+
+  //function to check register address
+
+  registerAddressHandler = async (addressEnroll)=> {
+    try{
+      await this.state.contract.methods.addUploader(addressEnroll).send({
+        from: '0xF3a57FAbea6e198403864640061E3abc168cee80'
+      });
+    }
+    catch(error){
+      console.log(error)
+    }
+    
+  }
+  //function to convert ipfs CID to bytes32
+  getBytes32FromIpfsHash(CID) {
+    return "0x"+bs58.decode(CID).slice(2).toString('hex')
+  }
+
+  addTrackHandler = async (uploaderAddress, CID) => {
+    const bytes32Hash = this.getBytes32FromIpfsHash(CID);
+    try {
+      await this.state.contract.methods.addTrack(uploaderAddress, bytes32Hash).send({
+        from: this.state.userAccount
+      })
+      alert('Track successfully added')
+    }catch(error){
+      alert('something doesnt seem right')
+      console.error(error);
+    }
+    
+  }
+
+
+  claimTokenHandler = async(addressTo)=> {
+    try{
+     await this.state.contract.methods.getTokens(addressTo).send({
+      from: this.state.userAccount
+    })
+      
+      alert('Token claimed, check your balance')
+    }
+    catch(error){
+      alert('something doesnt seem right')
+      console.error(error);
+    }
+  }
+
+  buffersListHandler = async(e)=> {
+    const buffersResult = await this.state.contract.methods.checkMyBuffers().call({
+      from: this.state.userAccount
+    });
+
+    this.setState({
+      buffers: buffersResult
+    })
+    
+  
+  } 
+ 
+
+  
+
+  
+  
+
+
+  
+
+
 
   render() {
+    // displaing interface conditionally
+    let currentInterface;
+   
+    if(this.state.currentInterface === 'enroll'){
+      currentInterface = < Enroll
+      enrollAdrress={this.registerAddressHandler}/>
+    }
+    else if(this.state.currentInterface === 'choose song'){
+      currentInterface = < ChooseSong />
+    }
+    else if(this.state.currentInterface === 'add track'){
+      currentInterface = < AddTrack 
+      addTrack={this.addTrackHandler}/>
+      
+    }
+    else if(this.state.currentInterface === 'buffers'){
+      currentInterface = <Buffers 
+      buffers={this.state.buffers}/>
+    }
+    else{
+      currentInterface = < ClaimToken 
+      claim={this.claimTokenHandler}/>
+      
+    }
+
+    //styling button conditionally 
+    const activeButton1 = classNames('switchBtn',{
+      'activeBtn': this.state.currentInterface === 'enroll'
+    })
+    const activeButton2 = classNames('switchBtn', {
+      'activeBtn': this.state.currentInterface === 'choose song'
+    })
+    const activeButton3 = classNames('switchBtn', {
+      'activeBtn': this.state.currentInterface === 'add track'
+    })
+    const activeButton4 = classNames('switchBtn', {
+      'activeBtn': this.state.currentInterface === 'claim token'
+    })
+
+    const activeButton5 = classNames('switchBtn', {
+      'activeBtn': this.state.currentInterface === 'buffers'
+    })
+
+
+    
     
     return (
       <div className="App">
-        <Nav userAccount={this.state.userAccount}/> 
+        <Nav img={Logo} userAccount={this.state.userAccount} 
+        unClaimedToken={this.state.unClaimedToken}
+        tokenBalance={this.state.tokenBalance}/> 
         <div className="switchForm-btns">
-          <button className="mainComponentBtn switchBtn">Choose Song-Get CID</button>
-          <button className="uploadComponentBtn switchBtn">Upload Song</button>
-          <button className="getTokensBtn switchBtn">Redeem Tokens</button>
-          <button className="pendingTokensBtn switchBtn">Pending Tokens</button>
+          <button className={activeButton1}
+          onClick={(e)=> {
+            this.setState({
+              currentInterface: 'enroll'
+            })
+          }}>Enroll Address</button>
+          <button className={activeButton2}
+          onClick={(e)=> {
+            this.setState({
+              currentInterface: 'choose song'
+            })
+          }}>Choose Song-Get CID</button>
+          <button className={activeButton3}
+          onClick={(e)=> {
+            this.setState({
+              currentInterface: 'add track'
+            })
+          }}>Add Track</button>
+          <button className={activeButton4}
+          onClick={(e)=> {
+            this.setState({
+              currentInterface: 'claim token'
+            })
+          }}>Redeem Tokens</button>
+
+        <button className={activeButton5}
+          onClick={(e)=> {
+            this.setState({
+              currentInterface: 'buffers'
+            });
+            this.buffersListHandler()
+
+          }} >My Buffers</button>
+
+          
         </div>
         
-        <GetMeta />  
+        {currentInterface} 
+        
         
       </div>
     );
