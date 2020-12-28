@@ -35,7 +35,7 @@ class ChooseSong extends Component {
         if(this.state.buffer){
             try{
                 this.setState({
-                    fileCID: 'Please wait for CID....This sometimes take a while'
+                    fileCID: 'Please wait for CID....This might take a minute or 2.Ensure to copy it'
                 })
 
                 const result = await ipfs.add(this.state.buffer)

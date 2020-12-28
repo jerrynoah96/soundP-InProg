@@ -209,14 +209,21 @@ input:focus{
 button:focus{
   outline: none;
 }
-.buffer-div{
-  color: white;
-}
+
 .buffers-list{
   position: absolute;
   top: 20%;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+}
+.buffer-link{
+  cursor: pointer;
+  margin-top: 1rem;
+  text-decoration: none;
 }
 
 

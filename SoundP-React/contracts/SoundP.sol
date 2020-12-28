@@ -135,7 +135,7 @@ function addTrack(address uploader,bytes32 songBuffer) public anUploader(msg.sen
 }
     
     //internal function that allows the uploader to redeem his unclaimed tokens
-    function redeem(address _artist) internal notEmpty(_artist) nonReentrant returns(bool){
+    function redeem(address _artist) internal notEmpty(_artist) _nonReentrant returns(bool){
         uint toSend=checkPendingTokens();
         _token.transfer(_artist,toSend);
          unclaimedTokens[msg.sender].earned=0;
@@ -168,3 +168,4 @@ function addTrack(address uploader,bytes32 songBuffer) public anUploader(msg.sen
 	}
     */
 }
+

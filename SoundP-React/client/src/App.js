@@ -109,8 +109,9 @@ class App extends Component {
       alert('something doesnt seem right')
       console.error(error);
     }
-    
+  
   }
+ 
 
 
   claimTokenHandler = async(addressTo)=> {
@@ -138,6 +139,7 @@ class App extends Component {
     
   
   } 
+  
  
 
   
