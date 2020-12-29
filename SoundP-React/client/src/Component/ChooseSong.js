@@ -59,7 +59,7 @@ class ChooseSong extends Component {
 
         return(
             <div className="main-page">
-                <h4 className="brandDescription">Choose a Song</h4>
+                <h4 className="brandDescription">Choose a Song File</h4>
                 {this.state.fileCID}
                 <form className="upload-form" onSubmit={this.onSubmit}>
     

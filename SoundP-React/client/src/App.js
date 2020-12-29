@@ -216,7 +216,7 @@ class App extends Component {
             this.setState({
               currentInterface: 'choose song'
             })
-          }}>Choose Song-Get CID</button>
+          }}>Upload Song-Get CID</button>
           <button className={activeButton3}
           onClick={(e)=> {
             this.setState({
@@ -237,7 +237,7 @@ class App extends Component {
             });
             this.buffersListHandler()
 
-          }} >My Buffers</button>
+          }} >My Song CIDs</button>
 
           
         </div>
