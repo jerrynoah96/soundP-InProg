@@ -21,7 +21,7 @@ class ClaimToken extends Component {
     return (
       <div className="enroll"> 
         <form className="claimToken-form form" onSubmit={this.handleSubmit}>
-          <h3>Claim TOken</h3>
+          <h3>Claim Token</h3>
 
             <input type="text" 
             placeholder="address 0x00...."

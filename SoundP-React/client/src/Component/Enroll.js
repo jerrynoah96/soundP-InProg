@@ -24,13 +24,13 @@ class Enroll extends Component {
     return (
       <div className="enroll"> 
         <form className="enroll-form form" onSubmit={this.submitEnroll}>
-          <h3>Enroll Your Address</h3>
+          <h3>Enroll Address</h3>
 
             <input type="text" 
             placeholder="address 0x00...."
             className="metaInput"
             onChange={this.handleUserAddress} required/>
-            <button type="submit" className="form-button" disabled>Enroll Addres</button>
+            <button type="submit" className="form-button" disabled>Add Uploader</button>
 
         </form>
       

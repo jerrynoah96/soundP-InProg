@@ -7,7 +7,7 @@ const Nav = (props)=> {
         <div className="navBar">
             <img src={props.img} className="soundP-logo"/>
             <h2 className="brandName">SOUNDP</h2>
-            <span className="unClaimedToken">UnClaimedToken: <span className="token">{props.unClaimedToken} SNP</span></span>
+            <span className="unClaimedToken">UnClaimedTokens: <span className="token">{props.unClaimedToken} SNP</span></span>
             <span className="TokenBalance">TokenBalance: <span className="balance">{props.tokenBalance} SNP</span></span>
             <span className="userAddress">Your address: <span className="address">{props.userAccount} </span></span>    
         </div>
