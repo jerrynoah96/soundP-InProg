@@ -165,7 +165,8 @@ class App extends Component {
     }
     else if(this.state.currentInterface === 'add track'){
       currentInterface = < AddTrack 
-      addTrack={this.addTrackHandler}/>
+      addTrack={this.addTrackHandler}
+      userAddress={this.state.userAccount}/>
       
     }
     else if(this.state.currentInterface === 'buffers'){
@@ -174,7 +175,8 @@ class App extends Component {
     }
     else{
       currentInterface = < ClaimToken 
-      claim={this.claimTokenHandler}/>
+      claim={this.claimTokenHandler}
+      />
       
     }
 

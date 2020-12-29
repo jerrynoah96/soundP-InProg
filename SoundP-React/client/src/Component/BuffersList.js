@@ -2,6 +2,7 @@ import React from 'react';
 import "../App.css";
 import bs58 from 'bs58';
 
+
 const BuffersList = (props) =>{
   var hashStr;
   const buffers = props.buffers;

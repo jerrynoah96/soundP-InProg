@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({host: "ipfs.infura.io", port: 5001, protocol:"https"})
 
@@ -7,9 +8,11 @@ const ipfs = ipfsClient({host: "ipfs.infura.io", port: 5001, protocol:"https"})
 class ChooseSong extends Component {
     state = {
         buffer: null,
-        fileCID: null
+        fileCID: null,
+        loading: null,
+        cidCopied: false
     }
-
+    
     captureFile = (e)=>{
         e.preventDefault();
         console.log('file catured')
@@ -35,15 +38,16 @@ class ChooseSong extends Component {
         if(this.state.buffer){
             try{
                 this.setState({
-                    fileCID: 'Please wait for CID....This might take a minute or 2.Ensure to copy it'
+                    loading: 'Please wait for CID....This might take a minute or 2.Ensure to copy it.'
                 })
-
+            
                 const result = await ipfs.add(this.state.buffer)
                 const fileCID = result.cid.string;
                 console.log('result', result);
                 this.setState({
                     fileCID
                 })
+                console.log(this.state.fileCID, 'CID')
             }
             catch(e){
                 console.log('error', e)
@@ -56,11 +60,26 @@ class ChooseSong extends Component {
     }
 
     render(){
+        let response;
 
+        if(!this.state.fileCID){
+            response= this.state.loading 
+        }
+        else{
+            response= <p>
+            {this.state.fileCID}<img className="copy-icon" 
+            src="https://cdn0.iconfinder.com/data/icons/user-interface-line-style-2/32/User_Interface_icon_line_style_32px_for_sale_copy__paste-512.png"
+            onCopy={() => this.setState({cidCopied: true})}>
+            </img> {this.state.cidCopied ? <small>copied</small> : null} </p> 
+        }
         return(
             <div className="main-page">
                 <h4 className="brandDescription">Choose a Song File</h4>
-                {this.state.fileCID}
+                
+                <CopyToClipboard text={this.state.fileCID} >
+                <p className="fileCID"> {response}</p>
+                </CopyToClipboard>
+                
                 <form className="upload-form" onSubmit={this.onSubmit}>
     
                     <input type="file" 

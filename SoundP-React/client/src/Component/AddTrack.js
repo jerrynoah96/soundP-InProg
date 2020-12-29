@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import "../App.css";
 
 
+
 class AddTrack extends Component {
   state = { 
-    userAddress: null,
+    userAddress: this.props.userAddress,
     CID: null
    };
 
@@ -38,7 +39,7 @@ class AddTrack extends Component {
             <input type="text" 
             placeholder="address 0x00...."
             className="addTrackInput"
-            onChange={this.handleAddress} required/>
+            onChange={this.handleAddress} required value={this.state.userAddress}/>
             <input type="text" 
             placeholder="Input the CID you copied QmVbbYG......"
             className="addTrackInput"

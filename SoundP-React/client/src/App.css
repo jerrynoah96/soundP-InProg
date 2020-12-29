@@ -225,6 +225,15 @@ button:focus{
   margin-top: 1rem;
   text-decoration: none;
 }
+.copy-icon{
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+
+}
+small{
+  color: white;
+}
 
 
 
