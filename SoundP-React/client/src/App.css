@@ -234,6 +234,9 @@ button:focus{
 small{
   color: white;
 }
+.displayedCid{
+  display: inline;
+}
 
 
 

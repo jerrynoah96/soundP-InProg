@@ -47,7 +47,7 @@ class ChooseSong extends Component {
                 this.setState({
                     fileCID
                 })
-                console.log(this.state.fileCID, 'CID')
+                
             }
             catch(e){
                 console.log('error', e)
@@ -58,26 +58,37 @@ class ChooseSong extends Component {
         }
 
     }
+    onCopy=(e)=> {
+        this.setState({cidCopied: true}, () => {
+            setTimeout( () => {
+              this.setState({cidCopied: false})
+          }, 2000)
+          })
+    }
 
     render(){
         let response;
+        
 
         if(!this.state.fileCID){
             response= this.state.loading 
         }
         else{
-            response= <p>
+            response= <div className="displayedCid">
             {this.state.fileCID}<img className="copy-icon" 
             src="https://cdn0.iconfinder.com/data/icons/user-interface-line-style-2/32/User_Interface_icon_line_style_32px_for_sale_copy__paste-512.png"
-            onCopy={() => this.setState({cidCopied: true})}>
-            </img> {this.state.cidCopied ? <small>copied</small> : null} </p> 
+            >
+            </img> </div> 
         }
+
+    
         return(
             <div className="main-page">
                 <h4 className="brandDescription">Choose a Song File</h4>
-                
-                <CopyToClipboard text={this.state.fileCID} >
-                <p className="fileCID"> {response}</p>
+                <CopyToClipboard text={this.state.fileCID} onCopy={this.onCopy} >
+                <p className="fileCID"> {response}
+                {this.state.cidCopied && <small>copied</small> }
+                </p>
                 </CopyToClipboard>
                 
                 <form className="upload-form" onSubmit={this.onSubmit}>

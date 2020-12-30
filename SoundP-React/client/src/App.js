@@ -75,9 +75,12 @@ class App extends Component {
   unClaimedTokenHandler = async () => {
     
     
-    const unClaimedToken = await this.state.contract.methods.checkPendingTokens().call();
+    const unClaimedToken = await this.state.contract.methods.checkPendingTokens().call({
+      from: this.state.userAccount
+    });
+    const unClaimedTk = this.state.web3.utils.fromWei(unClaimedToken, 'ether')
     // Update state with the result.
-    this.setState({ unClaimedToken});
+    this.setState({ unClaimedToken: unClaimedTk});
   };
 
   //function to check register address
